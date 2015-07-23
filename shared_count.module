@@ -31,8 +31,8 @@ function shared_count_permission() {
 }
 
 /**
-* Shared Count Configuration form.
-*/
+ * Shared Count Configuration form.
+ */
 function shared_count_config_form($form, $form_state) {
   $shared_count_plans = array(
     'https://free.sharedcount.com/' => t('Free'),
@@ -63,8 +63,8 @@ function shared_count_config_form($form, $form_state) {
 }
 
 /**
-* Shared Count Configuration form validate.
-*/
+ * Shared Count Configuration form validate.
+ */
 function shared_count_config_form_validate($form, &$form_state) {
   if (!is_numeric($form_state['values']['shared_count_min_shares'])) {
     form_set_error('shared_count_min_shares',t('This field should be a number'));
@@ -72,8 +72,8 @@ function shared_count_config_form_validate($form, &$form_state) {
 }
 
 /**
-* Implements hook_block_info().
-*/
+ * Implements hook_block_info().
+ */
 function shared_count_block_info() {
   $blocks = array();
   $blocks['share_count_block'] = array(
@@ -83,8 +83,8 @@ function shared_count_block_info() {
 }
 
 /**
-* Implements hook_block_view().
-*/
+ * Implements hook_block_view().
+ */
 function shared_count_block_view($delta = '') {
   $block = array();
   switch($delta) {
@@ -96,8 +96,8 @@ function shared_count_block_view($delta = '') {
 }
 
 /**
-* Generete the markup for the share buttons.
-*/
+ * Generete the markup for the share buttons.
+ */
 function shared_count_block_markup() {
   $settings = array(
     'shared_count_api_key' => variable_get('shared_count_api_key',''),
