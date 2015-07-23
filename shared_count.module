@@ -5,6 +5,16 @@
 */
 
 /**
+ * Implements hook_help().
+ */
+function shared_count_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#shared_count':
+      return '<p>' . t('This module provides a Shared count service integration') . '</p>';
+  }
+}
+
+/**
  * Implements hook_menu().
  */
 function shared_count_menu() {
