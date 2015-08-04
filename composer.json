@@ -1,0 +1,5 @@
+{
+    "name": "drupal/shared_count",
+    "description": "Provides a Shared count service integration.",
+    "type": "drupal-module"
+}

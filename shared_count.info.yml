@@ -1,0 +1,5 @@
+name: Shared Count
+description: Provides a Shared count service integration.
+core: 8.x
+type: module
+version:1.0
