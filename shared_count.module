@@ -1,4 +1,5 @@
 <?php
+
 /**
 * @file
 * ShareCount Integration
@@ -23,7 +24,7 @@ function shared_count_menu() {
     'page callback' => 'drupal_get_form',
     'page arguments' => array('shared_count_config_form'),
     'access arguments' => array('configure shared count'),
-    'title' => t('Shared count configuration'),
+    'title' => 'Shared count configuration',
   );
   return $items;
 }
@@ -35,7 +36,6 @@ function shared_count_permission() {
   $permissions['configure shared count'] = array(
     'title' => t('Configure Settings for Shared Count'),
     'description' => t('Access to Shared Count configuration'),
-    'restrict access' => TRUE,
   );
   return $permissions;
 }
@@ -83,8 +83,10 @@ function shared_count_block_view($delta = '') {
   $block = array();
   switch($delta) {
     case 'share_count_block':
-    $block['subject'] = '';
-    $block['content'] = shared_count_block_markup();
+      $block['subject'] = '';
+      $block['content'] = shared_count_block_markup();
+      break;
+
   }
   return $block;
 }
