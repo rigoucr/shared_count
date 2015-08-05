@@ -83,8 +83,10 @@ function shared_count_block_view($delta = '') {
   $block = array();
   switch($delta) {
     case 'share_count_block':
-    $block['subject'] = '';
-    $block['content'] = shared_count_block_markup();
+      $block['subject'] = '';
+      $block['content'] = shared_count_block_markup();
+      break;
+
   }
   return $block;
 }
