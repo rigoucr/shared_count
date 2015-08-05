@@ -33,11 +33,7 @@
           count += data.LinkedIn;
           count += data.Pinterest;
           count += data.StumbleUpon;
-          if(count > settings.setting.shared_count_min_shares){
-            $('.shared-count-block .shared-count').text(count);
-          }else {
-            $('.shared-count-block .shared-count').text(settings.setting.shared_count_min_shares);
-          }
+          $('.shared-count-block .shared-count').text(count);
         });
       }
     }

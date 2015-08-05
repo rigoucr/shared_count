@@ -55,13 +55,6 @@ function shared_count_config_form($form, $form_state) {
     '#default_value' => variable_get('shared_count_api_key', ''),
     '#required' => TRUE,
   );
-  $form['shared_count_min_shares'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Minimum number of shares'),
-    '#description' => t('If your content has less than this minimum number of shares, the module going to set this value as the number of shares for your content'),
-    '#default_value' => variable_get('shared_count_min_shares', 0),
-    '#required' => TRUE,
-  );
   $form['shared_count_plan'] = array(
     '#type' => 'radios',
     '#title' => t('Shared Count Plans'),
@@ -70,15 +63,6 @@ function shared_count_config_form($form, $form_state) {
     '#description' => t('Select your shared count plan'),
   );
   return system_settings_form($form);
-}
-
-/**
- * Shared Count Configuration form validate.
- */
-function shared_count_config_form_validate($form, &$form_state) {
-  if (!is_numeric($form_state['values']['shared_count_min_shares'])) {
-    form_set_error('shared_count_min_shares',t('This field should be a number'));
-  }
 }
 
 /**
@@ -111,7 +95,6 @@ function shared_count_block_view($delta = '') {
 function shared_count_block_markup() {
   $settings = array(
     'shared_count_api_key' => variable_get('shared_count_api_key',''),
-    'shared_count_min_shares' => variable_get('shared_count_min_shares', 0),
     'shared_count_request_domain' => variable_get('shared_count_plan', 'https://free.sharedcount.com/'),
   );
   drupal_add_js(array('setting' => $settings), array('type' => 'setting'));

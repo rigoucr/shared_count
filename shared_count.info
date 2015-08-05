@@ -3,4 +3,4 @@ description = Provides a Shared count service integration.
 core = 7.x
 scripts[] = 'js/shared_count.js'
 stylesheets[all][] = 'css/shared-count.css'
-configure = admin/config/shared-count-config
+configure = admin/config/services/shared-count-config

@@ -9,7 +9,7 @@ This module provides a block with a Shared Count service integration.
 
 *Introduction
 If you want to get the shares count for your content and additionally you don't want to have this data into your drupal; shared count module is your solution.
-Additionally this module was provided of Mashable style design, it looks very good (thanks to @betovarg and @fedecrc for the theming).
+This modules was themed and designed by @lu-sanvar, @betovar, @fedecr.
 
 *Installation
 Install as you would normally install a contributed drupal module. See: https://drupal.org/documentation/install/modules-themes/modules-7 for further information.
@@ -17,7 +17,6 @@ Install as you would normally install a contributed drupal module. See: https://
 *Configuration
 -Create a Shared Count account at sharedcount.com.
 -Go to admin/config/services/shared-count-config, right here you can paste the API key of your shared count account.
--Set the minimum number of shares for your content.
 -Select your Shared count plan (free, plus or business).
 -Save and have fun!.
 
