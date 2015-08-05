@@ -36,7 +36,6 @@ function shared_count_permission() {
   $permissions['configure shared count'] = array(
     'title' => t('Configure Settings for Shared Count'),
     'description' => t('Access to Shared Count configuration'),
-    'restrict access' => TRUE,
   );
   return $permissions;
 }
