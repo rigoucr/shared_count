@@ -92,6 +92,23 @@ function shared_count_block_view($delta = '') {
 }
 
 /**
+ * Implements hook_theme().
+ */
+function shared_count_theme($existing, $type, $theme, $path) {
+  return array(
+    'shared_count_share_links' => array(
+      'variables' => array(
+        'primary_items' => '',
+        'secondary_items' => '',
+        'caption_text' => '',
+        'more_text' => '',
+      ),
+      'template' => 'shared-count-share-links',
+      'path' => drupal_get_path('module', 'shared_count') . '/templates',
+    ),
+  );
+}
+/**
  * Generete the markup for the share buttons.
  */
 function shared_count_block_markup() {
@@ -102,20 +119,20 @@ function shared_count_block_markup() {
   drupal_add_js(array('setting' => $settings), array('type' => 'setting'));
   global $base_url;
   $path_alias = drupal_get_path_alias();
-  $markup = '<aside class="shared-count-block">';
-  $markup .= '<div class="total-shares">';
-  $markup .= '<em class="shared-count"></em>';
-  $markup .= '<div class="caption">' . t('Shares') . '</div></div>';
-  $markup .= '<div  class="share-container">';
-  $markup .= '<div  class="shared-count-primary-shares">';
-  $markup .=  l(t('Share on Facebook'), 'https://www.facebook.com/sharer/sharer.php', array('external' => TRUE,'query' => array('u' => $base_url . '/' . $path_alias), 'attributes' => array('class' => array('shared-count-facebook'))));
-  $markup .=  l(t('Share on Twitter'), 'https://twitter.com/home', array('external' => TRUE,'query' => array('status' => $base_url . '/' . $path_alias), 'attributes' => array('class' => array('shared-count-twitter'))));
-  $markup .=  l(t('g+'), 'https://plus.google.com/share', array('external' => TRUE,'query' => array('url' => $base_url . '/' . $path_alias), 'attributes' => array('class' => array('shared-count-googleplus'))));
-  $markup .= '<div class="shared-count-more-social-networks">' . t('more') . '</div>';
-  $markup .= '</div><div class="shared-count-secondary-shares">';
-  $markup .= l(t('Linkedin'),'https://www.linkedin.com/shareArticle', array('external' => TRUE, 'query' => array('url' => $base_url . '/' . $path_alias, 'title' => drupal_get_title(), 'mini' => TRUE), 'attributes' => array('class' => array('shared-count-linkedin'))));
-  $markup .= l(t('Stumbleupon'),'https://www.stumbleupon.com/submit', array('external' => TRUE, 'query' => array('url' => $base_url . '/' . $path_alias, 'title' => drupal_get_title()), 'attributes' => array('class' => array('shared-count-stumbleupon'))));
-  $markup .= l(t('Pinterest'),'https://pinterest.com/pin/create/button/', array('external' => TRUE, 'query' => array('url' => $base_url . '/' . $path_alias), 'attributes' => array('class' => array('shared-count-pinterest'))));
-  $markup .= '</div></div> </aside>';
+  $primary_items = l(t('Share on Facebook'), 'https://www.facebook.com/sharer/sharer.php', array('external' => TRUE,'query' => array('u' => $base_url . '/' . $path_alias), 'attributes' => array('class' => array('shared-count-facebook'))));
+  $primary_items .= l(t('Share on Twitter'), 'https://twitter.com/home', array('external' => TRUE,'query' => array('status' => $base_url . '/' . $path_alias), 'attributes' => array('class' => array('shared-count-twitter'))));
+  $primary_items .= l(t('g+'), 'https://plus.google.com/share', array('external' => TRUE,'query' => array('url' => $base_url . '/' . $path_alias), 'attributes' => array('class' => array('shared-count-googleplus'))));
+  $secondary_items = l(t('Linkedin'),'https://www.linkedin.com/shareArticle', array('external' => TRUE, 'query' => array('url' => $base_url . '/' . $path_alias, 'title' => drupal_get_title(), 'mini' => TRUE), 'attributes' => array('class' => array('shared-count-linkedin'))));
+  $secondary_items .= l(t('Stumbleupon'),'https://www.stumbleupon.com/submit', array('external' => TRUE, 'query' => array('url' => $base_url . '/' . $path_alias, 'title' => drupal_get_title()), 'attributes' => array('class' => array('shared-count-stumbleupon'))));
+  $secondary_items .= l(t('Pinterest'),'https://pinterest.com/pin/create/button/', array('external' => TRUE, 'query' => array('url' => $base_url . '/' . $path_alias), 'attributes' => array('class' => array('shared-count-pinterest'))));
+  $caption_text = t('Shares');
+  $more_text = t('more');
+  $variables = array(
+    'primary_items' => $primary_items,
+    'secondary_items' => $secondary_items,
+    'more_text' => $more_text,
+    'caption_text' => $caption_text,
+  );
+  $markup = theme('shared_count_share_links', $variables);
   return $markup;
 }
