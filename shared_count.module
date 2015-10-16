@@ -44,6 +44,20 @@ function shared_count_permission() {
  * Shared Count Configuration form.
  */
 function shared_count_config_form($form, $form_state) {
+  $social_networks = array(
+    'facebook' => t('Facebook'),
+    'google_plus' => t('Google plus'),
+    'twitter' => t('Twitter'),
+    'linkedin' => t('Linkedin'),
+    'stumbleupon' => t('Stumbleupon'),
+    'pinterest' => t('Pinterest'),
+
+  );
+  $columns = array(
+    'disabled' => t('Disabled'),
+    'pinned' => t('Pinned'),
+    'hidden' => t('Hidden')
+  );
   $shared_count_plans = array(
     'https://free.sharedcount.com/' => t('Free'),
     'https://plus.sharedcount.com/' => t('Plus'),
@@ -61,6 +75,13 @@ function shared_count_config_form($form, $form_state) {
     '#default_value' => variable_get('shared_count_plan','https://free.sharedcount.com/'),
     '#options' => $shared_count_plans,
     '#description' => t('Select your shared count plan'),
+  );
+  $form['shared_count_social_networks'] = array(
+    '#title' => t('Sortable Lists Element'),
+    '#type' => 'sortable_lists',
+    '#options' => $social_networks,
+    '#columns' => $columns,
+    '#default_value' => variable_get('shared_count_social_networks', array()),
   );
   return system_settings_form($form);
 }
@@ -117,22 +138,42 @@ function shared_count_block_markup() {
     'shared_count_request_domain' => variable_get('shared_count_plan', 'https://free.sharedcount.com/'),
   );
   drupal_add_js(array('setting' => $settings), array('type' => 'setting'));
-  global $base_url;
-  $path_alias = drupal_get_path_alias();
-  $primary_items = l(t('Share on Facebook'), 'https://www.facebook.com/sharer/sharer.php', array('external' => TRUE,'query' => array('u' => $base_url . '/' . $path_alias), 'attributes' => array('class' => array('shared-count-facebook'))));
-  $primary_items .= l(t('Share on Twitter'), 'https://twitter.com/home', array('external' => TRUE,'query' => array('status' => $base_url . '/' . $path_alias), 'attributes' => array('class' => array('shared-count-twitter'))));
-  $primary_items .= l(t('g+'), 'https://plus.google.com/share', array('external' => TRUE,'query' => array('url' => $base_url . '/' . $path_alias), 'attributes' => array('class' => array('shared-count-googleplus'))));
-  $secondary_items = l(t('Linkedin'),'https://www.linkedin.com/shareArticle', array('external' => TRUE, 'query' => array('url' => $base_url . '/' . $path_alias, 'title' => drupal_get_title(), 'mini' => TRUE), 'attributes' => array('class' => array('shared-count-linkedin'))));
-  $secondary_items .= l(t('Stumbleupon'),'https://www.stumbleupon.com/submit', array('external' => TRUE, 'query' => array('url' => $base_url . '/' . $path_alias, 'title' => drupal_get_title()), 'attributes' => array('class' => array('shared-count-stumbleupon'))));
-  $secondary_items .= l(t('Pinterest'),'https://pinterest.com/pin/create/button/', array('external' => TRUE, 'query' => array('url' => $base_url . '/' . $path_alias), 'attributes' => array('class' => array('shared-count-pinterest'))));
-  $caption_text = t('Shares');
-  $more_text = t('more');
+  $items = shared_count_get_items(variable_get('shared_count_social_networks', array()));
+
   $variables = array(
-    'primary_items' => $primary_items,
-    'secondary_items' => $secondary_items,
-    'more_text' => $more_text,
-    'caption_text' => $caption_text,
+    'primary_items' => $items['primary'],
+    'secondary_items' => $items['secondary'],
+    'more_text' => t('more'),
+    'caption_text' => t('Shares'),
   );
   $markup = theme('shared_count_share_links', $variables);
   return $markup;
+}
+
+/**
+ * Get all items
+ */
+function shared_count_get_items($shared_count_social_networks) {
+  global $base_url;
+  $path_alias = drupal_get_path_alias();
+  $social_networks = array(
+    'facebook' => l(t('Share on Facebook'), 'https://www.facebook.com/sharer/sharer.php', array('external' => TRUE,'query' => array('u' => $base_url . '/' . $path_alias), 'attributes' => array('class' => array('shared-count-facebook')))),
+    'google_plus' => l(t('g+'), 'https://plus.google.com/share', array('external' => TRUE,'query' => array('url' => $base_url . '/' . $path_alias), 'attributes' => array('class' => array('shared-count-googleplus')))),
+    'twitter' => l(t('Share on Twitter'), 'https://twitter.com/home', array('external' => TRUE,'query' => array('status' => $base_url . '/' . $path_alias), 'attributes' => array('class' => array('shared-count-twitter')))),
+    'linkedin' => l(t('Linkedin'),'https://www.linkedin.com/shareArticle', array('external' => TRUE, 'query' => array('url' => $base_url . '/' . $path_alias, 'title' => drupal_get_title(), 'mini' => TRUE), 'attributes' => array('class' => array('shared-count-linkedin')))),
+    'stumbleupon' => l(t('Stumbleupon'),'https://www.stumbleupon.com/submit', array('external' => TRUE, 'query' => array('url' => $base_url . '/' . $path_alias, 'title' => drupal_get_title()), 'attributes' => array('class' => array('shared-count-stumbleupon')))),
+    'pinterest' => l(t('Pinterest'),'https://pinterest.com/pin/create/button/', array('external' => TRUE, 'query' => array('url' => $base_url . '/' . $path_alias), 'attributes' => array('class' => array('shared-count-pinterest')))),
+  );
+
+  $pinned = '';
+  $hidden = '';
+  foreach($shared_count_social_networks['sortable_lists']['pinned']  as $network) {
+    $pinned .= $social_networks[$network];
+  }
+  foreach($shared_count_social_networks['sortable_lists']['hidden']  as $network) {
+    $hidden .= $social_networks[$network];
+  }
+  $items['primary'] = $pinned;
+  $items['secondary'] = $hidden;
+  return $items;
 }
